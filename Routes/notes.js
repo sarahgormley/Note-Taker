@@ -1,27 +1,31 @@
 // Require express notes router
-const notesRoute = require('express').Router();
+const notes = require('express').Router().get("notes");
 const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
+const { readAndAppend, readFromFile } = require('../public/assets/js/fsUtils');
 
-
-// EMpty array to store notes
-let notesArr = [];
 
 // Get request to get notes from db dson
-notesRoute.get('/', (req, res) => {
-    fs.readFile('./db/db.json', (error, data) => {
-        if (error) {
-            console.error(error)
-        } else {
-            res.json(JSON.parse(notesArr))
-        }
-    })
-})
+notes.get('/api/notes', (req, res) => {
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+});
 
 //Post request
-notesRoute.post('/', (req, res) => {
+notes.post('/', (req, res) => {
+    console.log(req.body);
+    const { title, text } = req.body;
+    if (req.body) {
+        const newNoteAdded = {
+            title,
+            text,
+            id: uuidv4(),
+        };
+        readAndAppend(newNoteAdded, './db/db.json');
+        res.json(`Note added successfully!`);
 
-})
+    } else {
+        res.error(`An error occurred while adding note!`)
+    }
+});
 
 //Delete
 
