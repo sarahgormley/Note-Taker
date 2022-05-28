@@ -16,7 +16,7 @@
 * [ScreenShots](#screenshots)
 
 ## Link to live application
-https://dashboard.heroku.com/apps/nameless-ridge-31507
+https://nameless-ridge-31507.herokuapp.com/
 
 ## Description
 This simple Note Taker app is created using Express.js to allow a simple yet effective method of writing and saving notes.
