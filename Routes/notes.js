@@ -1,10 +1,10 @@
-// Require express notes router
+// Install required packages
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const { readAndAppend, readFromFile, writeToFile } = require('../public/assets/js/fsUtils');
 
 
-// Get request to get notes from db dson
+// Get request to get notes from db Json
 notes.get('/', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
@@ -27,8 +27,8 @@ notes.post('/', (req, res) => {
     }
 });
 
-//Delete
-notes.delete(':id', (req, res) => {
+//Delete request, deletes notes by ID
+notes.delete('/:id', (req, res) => {
     const noteId = req.params.id;
     readFromFile('./db/db.json')
         .then((data) => JSON.parse(data))
@@ -38,5 +38,6 @@ notes.delete(':id', (req, res) => {
             res.json(`Note: ${noteId} has been deleted!`);
         });
 });
-//Write database to write ntoes and write a json respo
+
+
 module.exports = notes;
